@@ -1,0 +1,29 @@
+name = "punditbot"
+main = "src/worker.ts"
+compatibility_date = "2026-01-01"
+
+# Secrets (never commit) — set with:
+#   wrangler secret put TELEGRAM_BOT_TOKEN   # from @BotFather (required)
+#   wrangler secret put TXLINE_API_KEY        # required
+#   wrangler secret put ANTHROPIC_API_KEY     # recommended (Claude pundit messages)
+#   wrangler secret put WEBHOOK_SECRET        # any random string (verifies Telegram calls)
+#   wrangler secret put ADMIN_KEY             # gates GET /setwebhook
+# (No Container — a MatchRoom Durable Object polls TxLINE and pushes Telegram messages.)
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+[[durable_objects.bindings]]
+name = "MATCH_ROOM"
+class_name = "MatchRoom"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["MatchRoom"]
+
+# subs + match_events + kv (JWT cache).
+[[d1_databases]]
+binding = "DB"
+database_name = "punditbot"
+database_id = "2c7608c0-5fcc-4da4-afd9-51852c6cdb61"   # run: wrangler d1 create punditbot

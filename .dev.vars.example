@@ -1,0 +1,7 @@
+# Copy this file to `.dev.vars` (gitignored) and fill in real values for `wrangler dev`.
+# For PRODUCTION, do NOT use a file — set each with:  wrangler secret put NAME
+TELEGRAM_BOT_TOKEN="your_botfather_token"
+TXLINE_API_KEY="your_txline_key"
+ANTHROPIC_API_KEY="your_anthropic_key"
+# Optional — only if doing TTS voice notes:
+ELEVENLABS_API_KEY="your_elevenlabs_key"
