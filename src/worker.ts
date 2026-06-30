@@ -1,4 +1,4 @@
-// PunditBot — Cloudflare Worker. Telegram webhook + commands; MatchRoom DO pushes live updates.
+// PunditBot - Cloudflare Worker. Telegram webhook + commands; MatchRoom DO pushes live updates.
 import { listFixtures, getOdds, TxEnv } from './txline';
 import { oddsLine } from './commentary';
 import { sendMessage, answerCallback, inlineKeyboard, tg } from './telegram';
@@ -39,7 +39,7 @@ async function handle(env: Env, update: any): Promise<void> {
   const [cmd, arg] = String(msg.text).trim().split(/\s+/, 2);
 
   if (cmd === '/start') {
-    await sendMessage(token, chatId, 'Welcome to PunditBot — your AI football pundit for the 2026 World Cup.\n\nI message you when something significant happens in a match: goals, red cards, big moments — with a proper take on what it means.\n\nUse /matches to see what is on.');
+    await sendMessage(token, chatId, 'Welcome to PunditBot - your AI football pundit for the 2026 World Cup.\n\nI message you when something significant happens in a match: goals, red cards, big moments - with a proper take on what it means.\n\nUse /matches to see what is on.');
   } else if (cmd === '/matches') {
     await matchesList(env, token, chatId);
   } else if (cmd === '/follow' && arg) {

@@ -1,11 +1,11 @@
-# PunditBot — Cloudflare Deployment (as built)
+# PunditBot - Cloudflare Deployment (as built)
 
 **Track:** Consumer & Fan Experiences · **Subdomain:** `punditbot.<domain>`
 **Spec:** `SPEC.md` · **Notes:** `README.md`
 
 ## Shape (as built)
 
-**Workers webhook + Durable Object + D1 + Claude** — no Container, no polling mode. Telegram delivers updates to the Worker `/webhook`; a `MatchRoom` Durable Object per followed match polls TxLINE on a ~15s alarm and pushes pundit messages to subscribers via the Bot API. Subscriptions persist in D1 (not in-memory).
+**Workers webhook + Durable Object + D1 + Claude** - no Container, no polling mode. Telegram delivers updates to the Worker `/webhook`; a `MatchRoom` Durable Object per followed match polls TxLINE on a ~15s alarm and pushes pundit messages to subscribers via the Bot API. Subscriptions persist in D1 (not in-memory).
 
 ## Component mapping
 
@@ -13,8 +13,8 @@
 |---|---|
 | `index.js` (bot + SSE) | Worker `/webhook` (commands + callbacks) + `MatchRoom` DO (live polling/push) |
 | `txline.js` SSE | `src/txline.ts` polled by the DO (scores + odds) |
-| `commentary.js` (Claude) | `src/commentary.ts` — pundit message + `/odds` one-liner, fallback |
-| `telegram.js` | `src/telegram.ts` — sendMessage / answerCallbackQuery / inline keyboards |
+| `commentary.js` (Claude) | `src/commentary.ts` - pundit message + `/odds` one-liner, fallback |
+| `telegram.js` | `src/telegram.ts` - sendMessage / answerCallbackQuery / inline keyboards |
 | `subscriptions.js` (in-memory) | **D1** `subs` (survives restarts) |
 | `matchCache.js` (for /recap) | **D1** `match_events` |
 | webhook vs polling | webhook only; `GET /setwebhook?key=ADMIN_KEY` registers it |
@@ -64,4 +64,4 @@ npm run deploy
 ## Notes
 
 - The DO polls only while a match has followers and stops at full time (cost-safe).
-- This is the project's Solana sign-up gap — add a wallet-link step to satisfy the requirement.
+- This is the project's Solana sign-up gap - add a wallet-link step to satisfy the requirement.

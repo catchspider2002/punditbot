@@ -1,4 +1,4 @@
-// PunditBot — MatchRoom Durable Object. One per followed match.
+// PunditBot - MatchRoom Durable Object. One per followed match.
 // Alarm (~15s) polls TxLINE, detects events, writes a Claude pundit message, caches it for
 // /recap, and pushes it to every subscriber (from D1) via the Telegram Bot API. Stops when
 // nobody is following or at full time.

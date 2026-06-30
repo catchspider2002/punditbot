@@ -1,9 +1,9 @@
-// PunditBot — Claude pundit messages. Deterministic fallbacks if no key.
+// PunditBot - Claude pundit messages. Deterministic fallbacks if no key.
 const EVENT_SYSTEM = `You are a sharp, opinionated football pundit covering the 2026 World Cup on Telegram.
 When given a match event and context, write a short Telegram message:
 1. What just happened (one vivid sentence).
 2. What it means for the match (one sentence).
-3. What the market thinks now, in plain English (one sentence — only if odds data is provided).
+3. What the market thinks now, in plain English (one sentence - only if odds data is provided).
 
 Rules:
 - Total message: max 3 sentences, max 60 words.
@@ -44,11 +44,11 @@ export async function oddsLine(apiKey: string | undefined, home: string, away: s
 function eventFallback(c: EventCtx): string {
   switch (c.type) {
     case 'goal': return `GOAL! ${c.home} ${c.score} ${c.away}. The complexion of this match just changed.`;
-    case 'red_card': return `Red card! Down to ten — ${c.home} ${c.score} ${c.away}. This gets a lot harder now.`;
+    case 'red_card': return `Red card! Down to ten - ${c.home} ${c.score} ${c.away}. This gets a lot harder now.`;
     case 'yellow_card': return `Yellow card shown. Tempers and tackles flying at ${c.score}.`;
-    case 'kickoff': return `We're off — ${c.home} vs ${c.away} is underway.`;
+    case 'kickoff': return `We're off - ${c.home} vs ${c.away} is underway.`;
     case 'half_time': return `Half time: ${c.home} ${c.score} ${c.away}. Plenty still to play for.`;
     case 'full_time': return `Full time: ${c.home} ${c.score} ${c.away}. That's the result.`;
-    default: return `${c.home} ${c.score} ${c.away} — ${c.type}.`;
+    default: return `${c.home} ${c.score} ${c.away} - ${c.type}.`;
   }
 }

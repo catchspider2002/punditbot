@@ -1,4 +1,4 @@
-// PunditBot — minimal Telegram Bot API helper.
+// PunditBot - minimal Telegram Bot API helper.
 const API = 'https://api.telegram.org/bot';
 
 export async function tg(token: string, method: string, body: object): Promise<any> {

@@ -1,6 +1,6 @@
-# PunditBot — AI Pundit Telegram Bot
+# PunditBot - AI Pundit Telegram Bot
 
-A Telegram bot that follows World Cup matches live and messages you a sharp pundit take the moment something significant happens — goals, red cards, big moments — plus on-demand odds and recaps. Submitted to the Superteam × TxODDS World Cup Hackathon — Consumer & Fan Experiences track.
+A Telegram bot that follows World Cup matches live and messages you a sharp pundit take the moment something significant happens - goals, red cards, big moments - plus on-demand odds and recaps. Submitted to the Superteam × TxODDS World Cup Hackathon - Consumer & Fan Experiences track.
 
 **Stack:** Cloudflare Workers (Telegram webhook) + **Durable Objects** (live polling + push) + D1 + Claude. No Container.
 
@@ -36,7 +36,7 @@ A Telegram bot that follows World Cup matches live and messages you a sharp pund
    ```
 3. **Register the webhook** (one-time): open
    `https://punditbot.<sub>.workers.dev/setwebhook?key=<ADMIN_KEY>`
-   — it calls Telegram `setWebhook` to point at `/webhook` with your secret.
+   - it calls Telegram `setWebhook` to point at `/webhook` with your secret.
 4. Message your bot `/start`. Update `public/index.html` and this README with the bot @username.
 
 ## Demo
@@ -46,7 +46,7 @@ A Telegram bot that follows World Cup matches live and messages you a sharp pund
 
 ## Notes / limitations (hackathon scope)
 
-- Webhook mode (Workers can't long-poll). The Durable Object polls TxLINE only while a match has followers, and stops at full time — cost-safe.
+- Webhook mode (Workers can't long-poll). The Durable Object polls TxLINE only while a match has followers, and stops at full time - cost-safe.
 - Events from goal/card counts + phase; messages are moment-based (no player names in the snapshot).
 - Subscriptions persist in D1; TTS voice notes from the spec are not implemented (text only).
-- This bot is the project's Solana sign-up gap — add a wallet-link step (e.g. a small web page) to fully satisfy the requirement.
+- This bot is the project's Solana sign-up gap - add a wallet-link step (e.g. a small web page) to fully satisfy the requirement.

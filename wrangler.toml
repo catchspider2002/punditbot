@@ -2,13 +2,13 @@ name = "punditbot"
 main = "src/worker.ts"
 compatibility_date = "2026-01-01"
 
-# Secrets (never commit) — set with:
+# Secrets (never commit) - set with:
 #   wrangler secret put TELEGRAM_BOT_TOKEN   # from @BotFather (required)
 #   wrangler secret put TXLINE_API_KEY        # required
 #   wrangler secret put ANTHROPIC_API_KEY     # recommended (Claude pundit messages)
 #   wrangler secret put WEBHOOK_SECRET        # any random string (verifies Telegram calls)
 #   wrangler secret put ADMIN_KEY             # gates GET /setwebhook
-# (No Container — a MatchRoom Durable Object polls TxLINE and pushes Telegram messages.)
+# (No Container - a MatchRoom Durable Object polls TxLINE and pushes Telegram messages.)
 
 [assets]
 directory = "./public"

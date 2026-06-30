@@ -1,11 +1,11 @@
-# PunditBot — AI Pundit Telegram Bot
+# PunditBot - AI Pundit Telegram Bot
 ## Build Spec for Claude Code
 
 ---
 
 ## What we're building
 
-A Telegram bot that follows every World Cup match live and sends a message every time something significant happens — a goal, red card, big odds shift — explaining what just happened and what the market thinks now. Optional text-to-speech voice notes for each event. Zero setup for end users: find the bot, type /start, pick your match, done.
+A Telegram bot that follows every World Cup match live and sends a message every time something significant happens - a goal, red card, big odds shift - explaining what just happened and what the market thinks now. Optional text-to-speech voice notes for each event. Zero setup for end users: find the bot, type /start, pick your match, done.
 
 Submitted to the **Superteam × TxODDS World Cup Hackathon** under the **Fan Experiences** track.
 
@@ -29,12 +29,12 @@ Node.js Backend (Express)
        │
        ▼
 Telegram Bot (@PunditBotWC or similar)
-  ├── /start — welcome + match list
-  ├── /matches — list live and upcoming fixtures
-  ├── /follow MATCH_ID — subscribe to a match
-  ├── /unfollow — stop notifications
-  ├── /odds MATCH_ID — current odds snapshot
-  └── /recap MATCH_ID — summary of events so far
+  ├── /start - welcome + match list
+  ├── /matches - list live and upcoming fixtures
+  ├── /follow MATCH_ID - subscribe to a match
+  ├── /unfollow - stop notifications
+  ├── /odds MATCH_ID - current odds snapshot
+  └── /recap MATCH_ID - summary of events so far
 ```
 
 ---
@@ -43,7 +43,7 @@ Telegram Bot (@PunditBotWC or similar)
 
 ```
 punditbot/
-├── index.js                  # Entry point — starts SSE listener + Telegram bot
+├── index.js                  # Entry point - starts SSE listener + Telegram bot
 ├── txline.js                 # TxLINE SSE client + event filter
 ├── commentary.js             # Claude API → pundit message generator
 ├── tts.js                    # (Optional) Text-to-speech → .ogg voice note
@@ -63,7 +63,7 @@ punditbot/
 Welcome message:
 
 ```
-Welcome to PunditBot — your AI football pundit for the 2026 World Cup.
+Welcome to PunditBot - your AI football pundit for the 2026 World Cup.
 
 I send you a message every time something significant happens in a match: goals, red cards, big odds swings. With a proper explanation of what it means.
 
@@ -76,9 +76,9 @@ Fetches upcoming and live fixtures from TxLINE. Returns a formatted list:
 ```
 Today's matches:
 
-🟢 LIVE  Brazil vs France (67') — Group A
-⚪ 18:00  Argentina vs Germany — Group B
-⚪ 21:00  England vs Spain — Group C
+🟢 LIVE  Brazil vs France (67') - Group A
+⚪ 18:00  Argentina vs Germany - Group B
+⚪ 21:00  England vs Spain - Group C
 
 Reply /follow brazil-france to get live updates.
 ```
@@ -99,7 +99,7 @@ Use inline keyboard buttons (Telegram `InlineKeyboardMarkup`) so users can tap t
 Returns a snapshot of current TxLINE odds:
 
 ```
-Brazil vs France — 67'
+Brazil vs France - 67'
 
 Brazil win:  1.82  (was 1.45 before Casemiro's red card)
 Draw:        3.50
@@ -108,14 +108,14 @@ France win:  2.20
 Market implies France have a 45% chance to get back into this.
 ```
 
-The final line is Claude-generated — a one-sentence plain English interpretation of the odds.
+The final line is Claude-generated - a one-sentence plain English interpretation of the odds.
 
 ### `/recap MATCH_ID`
 Returns a bulleted summary of all significant events so far in the match, pulled from the in-memory event cache. Each bullet is the stored Claude commentary line for that event.
 
 ---
 
-## Event filtering — what triggers a message
+## Event filtering - what triggers a message
 
 Only send messages for these events (same threshold logic as PitchPulse):
 
@@ -147,12 +147,12 @@ You are a sharp, opinionated football pundit covering the 2026 World Cup on Tele
 When given a match event and the current match context, write a short Telegram message explaining:
 1. What just happened (one vivid sentence)
 2. What it means for the match (one sentence)
-3. What the market thinks now, in plain English (one sentence — only if odds data is provided)
+3. What the market thinks now, in plain English (one sentence - only if odds data is provided)
 
 Rules:
 - Total message: maximum 3 sentences, maximum 60 words
 - Write like a knowledgeable fan texting a group chat, not a press release
-- Be direct and opinionated — it's fine to say "this looks over" or "France are back in this"
+- Be direct and opinionated - it's fine to say "this looks over" or "France are back in this"
 - Use the player names and team names from the event data
 - For odds shifts with no other event: lead with what the market is doing and why
 - For half time / full time: give a one-paragraph match verdict (up to 80 words)
@@ -185,7 +185,7 @@ Cache the generated commentary in `matchCache.js` for use in `/recap`.
 
 ---
 
-## TTS voice notes (`tts.js`) — optional but high-impact for demo
+## TTS voice notes (`tts.js`) - optional but high-impact for demo
 
 If implementing TTS:
 
@@ -194,7 +194,7 @@ If implementing TTS:
 - Output: `.ogg` audio file (Telegram requires Ogg Vorbis for voice notes)
 - Convert if needed using `ffmpeg` (available on most deployment platforms): `mp3 → ogg`
 - Send as `sendVoice` via Telegram Bot API instead of `sendMessage`
-- Gate behind a user preference: `/voice on` / `/voice off` (default off — saves API costs)
+- Gate behind a user preference: `/voice on` / `/voice off` (default off - saves API costs)
 
 If TTS adds too much latency or cost, ship text-only first and add voice as a stretch goal.
 
@@ -205,10 +205,10 @@ If TTS adds too much latency or cost, ship text-only first and add voice as a st
 Use the `node-telegram-bot-api` npm package.
 
 Key Telegram API calls used:
-- `bot.sendMessage(chatId, text)` — standard text message
-- `bot.sendVoice(chatId, audioBuffer)` — voice note (if TTS enabled)
-- `bot.sendMessage(chatId, text, { reply_markup: inlineKeyboard })` — buttons for match selection
-- `bot.on('callback_query', handler)` — handle inline button taps
+- `bot.sendMessage(chatId, text)` - standard text message
+- `bot.sendVoice(chatId, audioBuffer)` - voice note (if TTS enabled)
+- `bot.sendMessage(chatId, text, { reply_markup: inlineKeyboard })` - buttons for match selection
+- `bot.on('callback_query', handler)` - handle inline button taps
 
 Telegram message formatting: use plain text, not Markdown. Keep it clean. The only formatting needed is line breaks between the three sentences.
 
@@ -216,7 +216,7 @@ Telegram message formatting: use plain text, not Markdown. Keep it clean. The on
 
 ## Subscriptions store (`subscriptions.js`)
 
-Simple in-memory Map — no database needed for hackathon scope:
+Simple in-memory Map - no database needed for hackathon scope:
 
 ```js
 // matchId → Set of chatIds
@@ -228,7 +228,7 @@ function getSubscribers(matchId) { ... }
 function getUserSubscriptions(chatId) { ... }
 ```
 
-On restart, subscriptions are lost — acceptable for a hackathon. Note this in the README.
+On restart, subscriptions are lost - acceptable for a hackathon. Note this in the README.
 
 ---
 
@@ -258,9 +258,9 @@ Updated on every TxLINE event. Used by `/recap` and `/odds` commands.
 
 ## Deployment
 
-- **Platform:** Railway or Fly.io — needs a persistent long-running process (not serverless)
+- **Platform:** Railway or Fly.io - needs a persistent long-running process (not serverless)
 - The bot runs as a single Node.js process with:
-  - Telegram polling or webhook (webhook preferred for production — set via `setWebhook`)
+  - Telegram polling or webhook (webhook preferred for production - set via `setWebhook`)
   - TxLINE SSE connection open continuously
 - Set `WEBHOOK_URL` in env to your deployed domain if using webhooks
 - For hackathon, polling mode is simpler: `bot = new TelegramBot(token, { polling: true })`
@@ -282,14 +282,14 @@ PORT=3001
 
 ## Demo video plan (max 5 minutes)
 
-1. **0:00–0:30** — Open Telegram, find @PunditBotWC, type /start. Show the welcome message and /matches list.
-2. **0:30–1:00** — Tap to follow a live match. Show the current match state message arriving instantly.
-3. **1:00–2:30** — Live event fires (goal or red card). Show the TxLINE event in the backend terminal, the Claude API call, and the Telegram message arriving on the phone within 3 seconds. Read it out — it should sound genuinely good.
-4. **2:30–3:00** — (If TTS enabled) Show a voice note arriving in Telegram. Play it. This is the standout demo moment.
-5. **3:00–3:30** — Type /recap. Show the full match summary built from cached events.
-6. **3:30–4:00** — Type /odds. Show the formatted odds with the plain English interpretation.
-7. **4:00–4:30** — Show a second phone following the same match — same events, same commentary arriving simultaneously.
-8. **4:30–5:00** — Wrap: "Every World Cup match. Every significant moment. In your pocket. Automatically."
+1. **0:00-0:30** - Open Telegram, find @PunditBotWC, type /start. Show the welcome message and /matches list.
+2. **0:30-1:00** - Tap to follow a live match. Show the current match state message arriving instantly.
+3. **1:00-2:30** - Live event fires (goal or red card). Show the TxLINE event in the backend terminal, the Claude API call, and the Telegram message arriving on the phone within 3 seconds. Read it out - it should sound genuinely good.
+4. **2:30-3:00** - (If TTS enabled) Show a voice note arriving in Telegram. Play it. This is the standout demo moment.
+5. **3:00-3:30** - Type /recap. Show the full match summary built from cached events.
+6. **3:30-4:00** - Type /odds. Show the formatted odds with the plain English interpretation.
+7. **4:00-4:30** - Show a second phone following the same match - same events, same commentary arriving simultaneously.
+8. **4:30-5:00** - Wrap: "Every World Cup match. Every significant moment. In your pocket. Automatically."
 
 ---
 
@@ -318,11 +318,11 @@ PORT=3001
 
 ## Key decisions / notes for Claude Code
 
-- **Create the Telegram bot first** via @BotFather before writing any code — you need the token to test anything
+- **Create the Telegram bot first** via @BotFather before writing any code - you need the token to test anything
 - **Use polling mode** during development (`{ polling: true }`), switch to webhooks only if deployment requires it
-- **Mock the TxLINE stream** during development with a `mockStream.js` that fires fake events every 30 seconds — don't wait for a live match to test the bot
-- **Rate limit Claude calls** — if two events fire within 2 seconds of each other (e.g. goal + odds shift), queue them and process with a 1-second gap to avoid hammering the API
-- **Keep the commentary cache in memory** — no database needed. If the process restarts, the bot loses history but resumes normally on the next event
-- **Test the 3-second delivery target** — measure time from TxLINE event received to Telegram message delivered. If it's consistently over 5 seconds, the Claude API call is the bottleneck; consider caching a pool of pre-generated commentary templates as fallback
-- **Voice note format:** Telegram requires `.ogg` (Opus codec). ElevenLabs outputs `.mp3` by default — use `fluent-ffmpeg` to convert. Check if ffmpeg is available on your deployment platform
-- The `/follow` inline keyboard buttons are important for the demo — typing match IDs is clunky, tapping a button is slick
+- **Mock the TxLINE stream** during development with a `mockStream.js` that fires fake events every 30 seconds - don't wait for a live match to test the bot
+- **Rate limit Claude calls** - if two events fire within 2 seconds of each other (e.g. goal + odds shift), queue them and process with a 1-second gap to avoid hammering the API
+- **Keep the commentary cache in memory** - no database needed. If the process restarts, the bot loses history but resumes normally on the next event
+- **Test the 3-second delivery target** - measure time from TxLINE event received to Telegram message delivered. If it's consistently over 5 seconds, the Claude API call is the bottleneck; consider caching a pool of pre-generated commentary templates as fallback
+- **Voice note format:** Telegram requires `.ogg` (Opus codec). ElevenLabs outputs `.mp3` by default - use `fluent-ffmpeg` to convert. Check if ffmpeg is available on your deployment platform
+- The `/follow` inline keyboard buttons are important for the demo - typing match IDs is clunky, tapping a button is slick

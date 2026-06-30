@@ -1,4 +1,4 @@
-# PunditBot — Submission Checklist
+# PunditBot - Submission Checklist
 
 Track: **Consumer & Fan Experiences** (Superteam × TxODDS World Cup Hackathon)
 Repo: https://github.com/catchspider2002/punditbot · Bot: _add @username_
@@ -20,12 +20,12 @@ Repo: https://github.com/catchspider2002/punditbot · Bot: _add @username_
 - [ ] **Test**: `/start` → `/matches` → follow → confirm a live message arrives
 - [ ] **Add bot @username** to README + `public/index.html` link + submission form
 - [ ] **Record demo video** (≤5 min): follow a match on a phone, show a live pundit message + `/odds` + `/recap`
-- [ ] **Push final code to GitHub** — verify `.dev.vars` is NOT committed
+- [ ] **Push final code to GitHub** - verify `.dev.vars` is NOT committed
 - [ ] **Fill submission form**: bot link, GitHub URL, video URL, TxLINE endpoints used, API feedback
 
 ## 💡 Optional polish / known limitations
 
-- [ ] **Solana sign-up step** (this project's gap) — a small wallet-link page tied to the chat
+- [ ] **Solana sign-up step** (this project's gap) - a small wallet-link page tied to the chat
 - [ ] TTS voice notes (`/voice on`) via ElevenLabs/OpenAI + R2 (spec stretch goal)
 - [ ] Richer events (player names/minutes) from the scores action feed
 - [ ] Optional public channel broadcast in addition to per-user follows
