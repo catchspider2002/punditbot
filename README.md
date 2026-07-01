@@ -41,7 +41,7 @@ A Telegram bot that follows World Cup matches live and messages you a sharp pund
 
 ## Demo
 
-- `/start` → `/matches` → tap a match → you get an immediate **"✅ Following … — current state"** reply (live score + phase + market if in play, or a "not kicked off yet" note). This confirmation comes from the live poller, so getting it also proves the Durable Object is running.
+- `/start` → `/matches` → tap a match → you get an immediate **"✅ Following … - current state"** reply (live score + phase + market if in play, or a "not kicked off yet" note). This confirmation comes from the live poller, so getting it also proves the Durable Object is running.
 - Trigger an event during a live match (or generally, once an in-play match is followed) and a pundit message arrives within ~15s. `/odds <id>` and `/recap <id>` work any time.
 
 ## Notes / limitations (hackathon scope)
@@ -50,4 +50,4 @@ A Telegram bot that follows World Cup matches live and messages you a sharp pund
 - Events from goal/card counts + phase; messages are moment-based (no player names in the snapshot).
 - Subscriptions persist in D1; TTS voice notes from the spec are not implemented (text only).
 - No wallet needed: the "sign up through Solana" requirement is the shared TxODDS on-chain data subscription (one token for all 8 projects), and the on-chain angle here is data provenance via TxLINE's audit trail. Telegram is the cross-device identity, so there's no login to add.
-- **Event-driven by design:** the bot only messages you when something happens (kickoff, goal, red card, half-time, full-time). During a quiet spell — or before the match kicks off — it stays silent. Use `/odds <id>` or `/recap <id>` any time to confirm it's live.
+- **Event-driven by design:** the bot only messages you when something happens (kickoff, goal, red card, half-time, full-time). During a quiet spell - or before the match kicks off - it stays silent. Use `/odds <id>` or `/recap <id>` any time to confirm it's live.

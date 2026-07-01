@@ -94,8 +94,8 @@ async function follow(env: Env, token: string, chatId: number, fixtureId: string
     doOk = r.ok;
   } catch { doOk = false; }
   // The Durable Object sends the rich "Following … current state" message. Only fall back here
-  // if the DO was unreachable — that also makes a broken poller visible (you get this plain line, not the state line).
-  if (!doOk) await sendMessage(token, chatId, `You're following ${home} vs ${away}. I'll message you when something happens (heads up: the live poller didn't start — try /follow again).`);
+  // if the DO was unreachable - that also makes a broken poller visible (you get this plain line, not the state line).
+  if (!doOk) await sendMessage(token, chatId, `You're following ${home} vs ${away}. I'll message you when something happens (heads up: the live poller didn't start - try /follow again).`);
 }
 
 async function unfollowList(env: Env, token: string, chatId: number): Promise<void> {

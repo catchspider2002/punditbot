@@ -25,7 +25,7 @@ Repo: https://github.com/catchspider2002/punditbot · Bot: [@WorldCupPunditBot](
 
 ## 💡 Optional polish / known limitations
 
-- [x] **No Solana wallet needed** — the "sign up through Solana" requirement is the shared TxODDS on-chain data subscription; Telegram is the cross-device identity, so there's no login to add
+- [x] **No Solana wallet needed** - the "sign up through Solana" requirement is the shared TxODDS on-chain data subscription; Telegram is the cross-device identity, so there's no login to add
 - [ ] TTS voice notes (`/voice on`) via ElevenLabs/OpenAI + R2 (spec stretch goal)
 - [ ] Richer events (player names/minutes) from the scores action feed
 - [ ] Optional public channel broadcast in addition to per-user follows

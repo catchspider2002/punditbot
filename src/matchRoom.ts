@@ -20,8 +20,8 @@ export class MatchRoom {
       const b = await req.json().catch(() => ({})) as { fixtureId?: string; home?: string; away?: string; chatId?: string | number };
       if (b.fixtureId) await this.ctx.storage.put('fixtureId', b.fixtureId);
       if (b.home) await this.ctx.storage.put('names', { home: b.home, away: b.away });
-      // Immediate "now following — current state" confirmation to the new follower.
-      if (b.chatId && b.fixtureId) await this.sendStatus(String(b.fixtureId), b.chatId, b.home, b.away).catch(() => {});
+      // Immediate "now following - current state" confirmation to the new follower.
+      if (b.chatId && b.fixtureId) await this.sendStatus(String(b.fixtureId), b.chatId, b.home, b.away).catch(() => { });
       if (!(await this.ctx.storage.getAlarm())) await this.ctx.storage.setAlarm(Date.now() + 2000);
       return new Response(JSON.stringify({ ok: true }), { headers: { 'Content-Type': 'application/json' } });
     }
@@ -84,9 +84,9 @@ export class MatchRoom {
       : '';
     let line: string;
     if (!state || state.phase === 'NS') {
-      line = `✅ Following ${names.home} vs ${names.away}. Not kicked off yet — I'll message you the moment it starts, and on every goal, card, and big odds swing.${market}`;
+      line = `✅ Following ${names.home} vs ${names.away}. Not kicked off yet - I'll message you the moment it starts, and on every goal, card, and big odds swing.${market}`;
     } else {
-      line = `✅ Following ${names.home} vs ${names.away}. ${phaseLabel(state.phase)} — ${names.home} ${state.homeGoals}-${state.awayGoals} ${names.away}. I'll ping you on every goal, card, and big swing from here.${market}`;
+      line = `✅ Following ${names.home} vs ${names.away}. ${phaseLabel(state.phase)} - ${names.home} ${state.homeGoals}-${state.awayGoals} ${names.away}. I'll ping you on every goal, card, and big swing from here.${market}`;
       await this.ctx.storage.put('last', state); // baseline so the alarm won't re-announce this moment
     }
     try { await sendMessage(this.env.TELEGRAM_BOT_TOKEN!, chatId, line); } catch { /* ignore */ }
