@@ -1,37 +1,46 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PunditBot - AI football pundit on Telegram</title>
-  <style>
-    body { margin: 0; background: #F9F8F6; color: #1F1D1A; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    .wrap { max-width: 640px; margin: 0 auto; padding: 48px 20px; }
-    h1 { font-size: 30px; margin: 0 0 8px; }
-    .sub { color: #6F6A61; font-size: 17px; }
-    .btn { display: inline-block; margin: 20px 0; padding: 12px 20px; background: #229ED9; color: #fff; border-radius: 10px; text-decoration: none; font-weight: 600; }
-    code { background: #efece6; padding: 2px 6px; border-radius: 5px; }
-    ul { line-height: 1.9; color: #333; }
-  </style>
+  <meta name="description"
+    content="Your AI football pundit for the 2026 World Cup - live on Telegram. Follow any match and get a sharp take the moment something happens." />
+  <title>PunditBot - AI Football Pundit on Telegram</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/styles.css" />
 </head>
+
 <body>
-  <div class="wrap">
-    <h1>PunditBot</h1>
-    <p class="sub">Your AI football pundit for the 2026 World Cup - live on Telegram. Follow any match and get a sharp take the moment something happens.</p>
-    <a class="btn" id="botlink" href="#">Open in Telegram</a>
-    <h3>Commands</h3>
-    <ul>
-      <li><code>/start</code> - welcome</li>
-      <li><code>/matches</code> - tap a match to follow</li>
-      <li><code>/follow &lt;id&gt;</code> / <code>/unfollow</code></li>
-      <li><code>/odds &lt;id&gt;</code> - current odds + plain-English read</li>
-      <li><code>/recap &lt;id&gt;</code> - the story so far</li>
-    </ul>
-    <p class="sub">Replace the link with your bot’s username after BotFather setup (see README).</p>
-  </div>
+  <header class="topbar"><span class="brand">PunditBot</span></header>
+  <main class="wrap">
+    <section class="hero">
+      <h1>Your AI football pundit.</h1>
+      <p class="sub">Follow any 2026 World Cup match on Telegram and get a sharp take the moment something happens -
+        goals, cards, odds swings, all narrated by AI.</p>
+    </section>
+
+    <a class="btn primary" id="botlink" href="#">Open in Telegram →</a>
+
+    <section class="panel">
+      <h2>Commands</h2>
+      <ul class="cmd-list">
+        <li><code>/start</code> <span class="muted">- welcome</span></li>
+        <li><code>/matches</code> <span class="muted">- tap a match to follow</span></li>
+        <li><code>/follow &lt;id&gt;</code> / <code>/unfollow</code> <span class="muted">- subscribe to live
+            alerts</span></li>
+        <li><code>/odds &lt;id&gt;</code> <span class="muted">- current odds + plain-English read</span></li>
+        <li><code>/recap &lt;id&gt;</code> <span class="muted">- the story so far</span></li>
+      </ul>
+    </section>
+
+    <p class="note muted">Replace the link with your bot's username after BotFather setup (see README).</p>
+  </main>
   <script>
     // Set your bot username here (or via BotFather) e.g. https://t.me/PunditBotWC_bot
     document.getElementById('botlink').href = 'https://t.me/BotFather';
   </script>
 </body>
+
 </html>
