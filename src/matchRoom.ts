@@ -6,7 +6,7 @@ import { getState, getOdds, listFixtures, State, TxEnv } from './txline';
 import { punditMessage } from './commentary';
 import { sendMessage } from './telegram';
 
-const POLL_MS = 15000;
+const POLL_MS = 8000;
 export interface RoomEnv { DB: D1Database; TXLINE_API_KEY?: string; ANTHROPIC_API_KEY?: string; TELEGRAM_BOT_TOKEN?: string }
 
 export class MatchRoom {
