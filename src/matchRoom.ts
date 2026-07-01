@@ -17,9 +17,11 @@ export class MatchRoom {
   async fetch(req: Request): Promise<Response> {
     const url = new URL(req.url);
     if (url.pathname === '/ensure' && req.method === 'POST') {
-      const b = await req.json().catch(() => ({})) as { fixtureId?: string; home?: string; away?: string };
+      const b = await req.json().catch(() => ({})) as { fixtureId?: string; home?: string; away?: string; chatId?: string | number };
       if (b.fixtureId) await this.ctx.storage.put('fixtureId', b.fixtureId);
       if (b.home) await this.ctx.storage.put('names', { home: b.home, away: b.away });
+      // Immediate "now following — current state" confirmation to the new follower.
+      if (b.chatId && b.fixtureId) await this.sendStatus(String(b.fixtureId), b.chatId, b.home, b.away).catch(() => {});
       if (!(await this.ctx.storage.getAlarm())) await this.ctx.storage.setAlarm(Date.now() + 2000);
       return new Response(JSON.stringify({ ok: true }), { headers: { 'Content-Type': 'application/json' } });
     }
@@ -69,6 +71,27 @@ export class MatchRoom {
     return out;
   }
 
+  // Send an immediate confirmation with the live state (or kick-off status) to one chat.
+  // For a live match we also store `last`, so the next alarm doesn't re-announce this moment.
+  async sendStatus(fixtureId: string, chatId: string | number, home?: string, away?: string): Promise<void> {
+    const names = (home && away) ? { home, away } : await this.names();
+    let state: State | null = null;
+    try { state = await getState(this.txenv(), fixtureId); } catch { state = null; }
+    let odds: Awaited<ReturnType<typeof getOdds>> = null;
+    try { odds = await getOdds(this.txenv(), fixtureId); } catch { odds = null; }
+    const market = odds
+      ? `\nMarket: ${names.home} ${(odds.implied.home * 100).toFixed(0)}% · Draw ${(odds.implied.draw * 100).toFixed(0)}% · ${names.away} ${(odds.implied.away * 100).toFixed(0)}%.`
+      : '';
+    let line: string;
+    if (!state || state.phase === 'NS') {
+      line = `✅ Following ${names.home} vs ${names.away}. Not kicked off yet — I'll message you the moment it starts, and on every goal, card, and big odds swing.${market}`;
+    } else {
+      line = `✅ Following ${names.home} vs ${names.away}. ${phaseLabel(state.phase)} — ${names.home} ${state.homeGoals}-${state.awayGoals} ${names.away}. I'll ping you on every goal, card, and big swing from here.${market}`;
+      await this.ctx.storage.put('last', state); // baseline so the alarm won't re-announce this moment
+    }
+    try { await sendMessage(this.env.TELEGRAM_BOT_TOKEN!, chatId, line); } catch { /* ignore */ }
+  }
+
   async names(): Promise<{ home: string; away: string }> {
     let n = await this.ctx.storage.get<{ home: string; away: string }>('names');
     if (n) return n;
@@ -77,5 +100,17 @@ export class MatchRoom {
     catch { n = { home: 'Home', away: 'Away' }; }
     await this.ctx.storage.put('names', n);
     return n;
+  }
+}
+
+function phaseLabel(phase: string): string {
+  switch (phase) {
+    case 'H1': return 'First half underway';
+    case 'HT': return 'Half time';
+    case 'H2': return 'Second half underway';
+    case 'ET': case 'ET1': case 'ET2': return 'Extra time';
+    case 'P': case 'PE': return 'Penalty shootout';
+    case 'F': case 'FET': case 'FPE': return 'Full time';
+    default: return 'In play';
   }
 }

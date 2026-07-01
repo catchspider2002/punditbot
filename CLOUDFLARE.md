@@ -64,4 +64,4 @@ npm run deploy
 ## Notes
 
 - The DO polls only while a match has followers and stops at full time (cost-safe).
-- This is the project's Solana sign-up gap - add a wallet-link step to satisfy the requirement.
+- No wallet needed: the "sign up through Solana" requirement is the shared TxODDS on-chain data subscription (one token across all 8 projects); Telegram is the cross-device identity. On-chain angle = data provenance via TxLINE's audit trail.

@@ -1,7 +1,7 @@
 # PunditBot - Submission Checklist
 
 Track: **Consumer & Fan Experiences** (Superteam × TxODDS World Cup Hackathon)
-Repo: https://github.com/catchspider2002/punditbot · Bot: _add @username_
+Repo: https://github.com/catchspider2002/punditbot · Bot: [@WorldCupPunditBot](https://t.me/WorldCupPunditBot)
 
 ## ✅ Done
 
@@ -18,14 +18,14 @@ Repo: https://github.com/catchspider2002/punditbot · Bot: _add @username_
 - [ ] **Deploy**: create D1 + `db:init:remote`, set secrets (TELEGRAM_BOT_TOKEN, TXLINE_API_KEY, ANTHROPIC_API_KEY, WEBHOOK_SECRET, ADMIN_KEY), `npm run deploy`
 - [ ] **Register webhook**: open `/setwebhook?key=<ADMIN_KEY>` once
 - [ ] **Test**: `/start` → `/matches` → follow → confirm a live message arrives
-- [ ] **Add bot @username** to README + `public/index.html` link + submission form
+- [x] **Bot @username wired** (@WorldCupPunditBot) into README + `public/index.html`; add to submission form
 - [ ] **Record demo video** (≤5 min): follow a match on a phone, show a live pundit message + `/odds` + `/recap`
 - [ ] **Push final code to GitHub** - verify `.dev.vars` is NOT committed
 - [ ] **Fill submission form**: bot link, GitHub URL, video URL, TxLINE endpoints used, API feedback
 
 ## 💡 Optional polish / known limitations
 
-- [ ] **Solana sign-up step** (this project's gap) - a small wallet-link page tied to the chat
+- [x] **No Solana wallet needed** — the "sign up through Solana" requirement is the shared TxODDS on-chain data subscription; Telegram is the cross-device identity, so there's no login to add
 - [ ] TTS voice notes (`/voice on`) via ElevenLabs/OpenAI + R2 (spec stretch goal)
 - [ ] Richer events (player names/minutes) from the scores action feed
 - [ ] Optional public channel broadcast in addition to per-user follows

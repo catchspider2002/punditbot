@@ -88,8 +88,14 @@ async function follow(env: Env, token: string, chatId: number, fixtureId: string
   const home = fx?.home || 'Home', away = fx?.away || 'Away';
   await env.DB.prepare('INSERT OR IGNORE INTO subs (match_id,chat_id,home_team,away_team) VALUES (?,?,?,?)').bind(String(fixtureId), String(chatId), home, away).run();
   const id = env.MATCH_ROOM.idFromName(String(fixtureId));
-  await env.MATCH_ROOM.get(id).fetch(new Request('https://room/ensure', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fixtureId: String(fixtureId), home, away }) }));
-  await sendMessage(token, chatId, `You're following ${home} vs ${away}. I'll message you when something happens.`);
+  let doOk = false;
+  try {
+    const r = await env.MATCH_ROOM.get(id).fetch(new Request('https://room/ensure', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fixtureId: String(fixtureId), home, away, chatId: String(chatId) }) }));
+    doOk = r.ok;
+  } catch { doOk = false; }
+  // The Durable Object sends the rich "Following … current state" message. Only fall back here
+  // if the DO was unreachable — that also makes a broken poller visible (you get this plain line, not the state line).
+  if (!doOk) await sendMessage(token, chatId, `You're following ${home} vs ${away}. I'll message you when something happens (heads up: the live poller didn't start — try /follow again).`);
 }
 
 async function unfollowList(env: Env, token: string, chatId: number): Promise<void> {
